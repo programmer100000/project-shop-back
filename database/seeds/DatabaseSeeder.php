@@ -34,7 +34,10 @@ class DatabaseSeeder extends Seeder
         DB::table('status')->insert($statuses);
         $user = [
           'username' => 'mehrabkb',
-          'password' => Hash::make('1234')
+          'password' => Hash::make('1234'),
+          'confirm_code' => '123456',
+          'role_id' => 1 , 
+          'status_id' => 1 
           
         ];
         DB::table('users')->insert($user);

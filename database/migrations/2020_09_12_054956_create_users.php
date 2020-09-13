@@ -13,13 +13,14 @@ class CreateUsers extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('users');
         Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrement('user_id');
+            $table->bigIncrements('user_id');
             $table->string('fname' , 100)->nullable();
             $table->string('lname' , 100)->nullable();
             $table->string('username' , 100)->unique();
             $table->string('email' , 100)->unique()->nullable();
-            $table->string('password' , 25)->nullable();
+            $table->string('password' , 64)->nullable();
             $table->string('confirm_code' , 6);
             $table->timestamps();
         });

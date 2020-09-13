@@ -26,7 +26,7 @@ class CreateForeignkeys extends Migration
           $table->foreign('category_id')->references('category_id')->on('categories');
       });
       Schema::table('product_tags', function (Blueprint $table) {
-          $table->unsignedBigInteger('product_tag_id');
+          $table->unsignedBigInteger('tag_id');
           $table->unsignedBigInteger('product_id');
 
           $table->foreign('product_id')->references('product_id')->on('products');
@@ -74,6 +74,13 @@ class CreateForeignkeys extends Migration
 
           $table->foreign('product_id')->references('product_id')->on('products');
       });
+      Schema::table('users', function (Blueprint $table) {
+        $table->unsignedBigInteger('role_id');
+        $table->unsignedBigInteger('status_id');
+
+        $table->foreign('status_id')->references('status_id')->on('status');
+        $table->foreign('role_id')->references('role_id')->on('roles');
+    });
     }
 
     /**

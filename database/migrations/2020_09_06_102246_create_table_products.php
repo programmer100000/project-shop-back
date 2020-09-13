@@ -27,21 +27,15 @@ class CreateTableProducts extends Migration
             
             $table->text('Review');
             
-            $table->boolean('special')->default(false);
+            $table->boolean('special' , 0);
             
-            $table->dateTime('special-from')->default(new DateTime());
-            $table->dateTime('special-to')->default(new DateTime());
+            $table->dateTime('special-from')->nullable();
+            $table->dateTime('special-to')->nullable();
             
             $table->string('main-image', 200);
             
-            $table->timestamps();
-                        
+            $table->timestamps();            
             
-            
-            
-            
-            
-            $table->timestamps();
         });
     }
 

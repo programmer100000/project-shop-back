@@ -19,7 +19,7 @@ class CreateSliderImages extends Migration
             
             $table->string('img', 200);
             
-            $table->string('image_link', 200);
+            $table->string('alt', 200);
             
             
             $table->timestamps();

@@ -6,6 +6,7 @@
   <title>پنل مدیریت | صفحه ورود</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -33,16 +34,16 @@
     <div class="card-body login-card-body">
       <p class="login-box-msg">فرم زیر را تکمیل کنید و ورود بزنید</p>
 
-      <form action="{{ route('login') }}" method="post">
+      <form method="post" action="{{ route('login.form') }}" >
         @csrf
         <div class="input-group mb-3">
-          <input type="username" class="form-control" placeholder="نام کاربری">
+          <input type="text" name="username" class="form-control" placeholder="نام کاربری">
           <div class="input-group-append">
             <span class="fa fa-envelope input-group-text"></span>
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="رمز عبور">
+          <input type="password" class="form-control" name="password" placeholder="رمز عبور">
           <div class="input-group-append">
             <span class="fa fa-lock input-group-text"></span>
           </div>
