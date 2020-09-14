@@ -19,6 +19,7 @@ class CreateBrands extends Migration
             
             $table->string('brand_title', 50);
             
+            $table->string('img' , 100);
             
             $table->timestamps();
         });

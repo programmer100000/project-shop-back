@@ -147,10 +147,56 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item has-treeview menu-open">
+            <a href="{{ route('slider') }}" class="nav-link active">
+              <i class="nav-icon fa fa fa-sliders"></i>
+              <p>
+                اسلایدر
+                <i class="right fa fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('slider') }}" class="nav-link active">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>لیست</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('add.slider') }}" class="nav-link active">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>افزودن</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview menu-open">
+            <a href="{{ route('slider') }}" class="nav-link active">
+              <i class="fa fa-amazon" aria-hidden="true"></i>
+              <p>
+                برند
+                <i class="right fa fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('brand') }}" class="nav-link active">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>لیست</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('add.brand') }}" class="nav-link active">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>افزودن</p>
+                </a>
+              </li>
+            </ul>
+          </li>
           <li class="nav-item">
-            <a href="{{ route('slider') }}" class="nav-link">
-              <i class="fa fa-sliders" aria-hidden="true"></i>
-              <p>اسلایدر</p>
+            <a href="{{ route('category') }}" class="nav-link">
+              <i class="fa fa-bars" aria-hidden="true"></i>
+              <p>دسته بندی</p>
             </a>
           </li>
         </ul>

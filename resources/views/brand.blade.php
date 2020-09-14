@@ -1,6 +1,6 @@
 @extends('master')
 @section('title')
-    اسلایدر
+    برندها
 @endsection
 @section('header')
 <script src="{{ asset('plugins/datatables/jquery.dataTables.js')}}" defer></script>
@@ -13,7 +13,7 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">اسلایدر</h3>
+            <h3 class="card-title">برندها</h3>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
@@ -30,18 +30,18 @@
                   $i = 1;
               @endphp
               <tbody>
-                  @foreach ($slider_images as $item)
+                  @foreach ($brands as $item)
                   <tr>
                     <td>
                         {{ $i++ }}
                     </td>
                     <td>
-                        <img src="{{ url($item->img) }}" width="600" height="250" alt="{{ $item->alt }}">
+                        <img src="{{ url($item->img) }}" width="600" height="250" alt="{{ $item->brand_title }}">
                     </td>
-                    <td>{{ $item->alt }}</td>
+                    <td>{{ $item->brand_title }}</td>
                     <td> 
-                        <a class="btn btn-primary" href="{{ route('editget.slider', $item->slider_image_id) }}"  >ویرایش</a>
-                        <button class="btn btn-danger delete-image-slider" data-id = {{ $item->slider_image_id }}  data-toggle="modal" data-target='#deletemodal'>حذف</button>
+                        <a class="btn btn-primary" href="{{ route('editget.brand', [$item->brand_id]) }}"  >ویرایش</a>
+                        <button class="btn btn-danger delete-brand" data-id = {{ $item->brand_id }}  data-toggle="modal" data-target='#deletemodal'>حذف</button>
                     </td>
                   </tr>
                   @endforeach
@@ -71,7 +71,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">خیر</button>
-        <button type="button" class="btn btn-primary" id="delete-image-slider" data-id="" data-csrf="{{ csrf_token() }}" data-url= "{{ route('delete.slider') }}">بله</button>
+        <button type="button" class="btn btn-primary" id="delete-brand" data-id="" data-csrf="{{ csrf_token() }}" data-url= "{{ route('delete.brand') }}">بله</button>
       </div>
     </div>
   </div>
@@ -108,5 +108,5 @@
       });
     });
   </script>
-  <script src="{{ asset('js/slider.js') }}" defer></script>
+  <script src="{{ asset('js/brand.js') }}" defer></script>
 @endsection
