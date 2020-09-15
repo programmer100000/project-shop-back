@@ -222,21 +222,40 @@ class AdminPanelController extends Controller
     public function addcatgory(Request $request){
         $name = $request->input('catgory-name');
         $attrs = $request->input('attrname');
-        $category = new category();
-        $category->category_title = $name ;
-        if($category->save()){
-            if($attrs != null){
-                foreach($attrs as $s){
-                    $att = new attribiute();
-                    $att->attr_title = $s;
-                    $att->cat_id = $category->category_id;
-                    $att->save();
+        $edit_id = $request->input('edit-cat-id');
+        if($edit_id ==null){
+            $category = new category();
+            $category->category_title = $name ;
+            if($category->save()){
+                if($attrs != null){
+                    foreach($attrs as $s){
+                        $att = new attribiute();
+                        $att->attr_title = $s;
+                        $att->cat_id = $category->category_id;
+                        $att->save();
+                    }
                 }
+                return true;
+            }else{
+                return false;
             }
-            return true;
         }else{
-            return false;
+            $category = category::where('category_id' , $edit_id)->first();
+            $category->category_title = $name;
+            if($category->save()){
+                attribiute::where('cat_id' , $edit_id)->delete();
+                if($attrs != null){
+                    foreach($attrs as $s){
+                        $att = new attribiute();
+                        $att->attr_title = $s;
+                        $att->cat_id = $category->category_id;
+                        $att->save();
+                    }
+                }
+                return true;
+            }
         }
+
     } 
 
     public function cat_builder($cats){
@@ -270,5 +289,32 @@ class AdminPanelController extends Controller
             return false;
         }    
         
+    }
+    public function editcategory(Request $request){
+        $id = $request->input('id');
+        $category = category::select()->Leftjoin('attributes' , 'attributes.cat_id' , '=' , 'categories.category_id')
+        ->where('categories.category_id' , $id)->get();
+        return json_encode($category);
+    }
+
+
+    //Product functions 
+
+    public function product(Request $request){
+
+    }
+    public function addproduct(Request $request){
+        switch ($request->method()) {
+            case 'GET':
+                return view('addproduct');
+                break;
+            case 'POST':
+                # code...
+                break;
+            
+            default:
+                return view('addproduct');
+                break;
+        }
     }
 }

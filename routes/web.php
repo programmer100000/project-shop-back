@@ -48,3 +48,13 @@ Route::get('/admin/categories' , 'AdminPanelController@category')->name('categor
 Route::post('/admin/add/category' , 'AdminPanelController@addcatgory')->name('add.category');
 Route::get('/admin/cat_json' , 'AdminPanelController@cat_json')->name('cat_json');
 Route::post('/admin/change/category/parent' , 'AdminPanelController@changeparent')->name('change.parent');
+Route::post('/admin/editcat', 'AdminPanelController@editcategory')->name('edit.category');
+
+
+//Product routes
+Route::get('/admin/products' , 'AdminPanelController@product')->name('product');
+Route::get('/admin/add/product' , 'AdminPanelController@addproduct')->name('add.product');
+Route::post('/admin/add/product' , 'AdminPanelController@addproduct')->name('add.product');
+Route::get('/admin/edit/product' , 'AdminPanelController@editproduct')->name('edit.product');
+Route::post('/admin/edit/product' , 'AdminPanelController@editproduct')->name('edit.product');
+Route::post('/admin/delete/product' , 'AdminPanelController@deleteproduct')->name('delete.product');

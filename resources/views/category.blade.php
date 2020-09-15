@@ -18,12 +18,12 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form role="form" action="{{ route('add.category') }}" method="POST">
+            <form id="category_form" role="form" action="{{ route('add.category') }}" method="POST">
                 @csrf
               <div class="card-body">
                 <div class="form-group">
                   <label for="name">نام <button class="btn btn-primary d-none" id="editbtn">ویرایش</button></label>
-                  <input type="text" class="form-control" id="name" name="catgory-name" placeholder="نام را وارد کنید">
+                  <input type="text" class="form-control" id="categoryname" name="catgory-name" placeholder="نام را وارد کنید">
                 </div>
                 <div class="form-group">
                     <div class="row">
@@ -37,16 +37,6 @@
                     <div class="row">
                         <div class="form-group">
                             <div class="parent" id="attrs">
-                                <div class="row p-4">
-                                    <div class="col-md-10">
-                                        <label for="attrname">نام مشخصه</label>
-                                        <input type="text" id="attrname" class="form-control" name="attrname[]">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label for="delete">عملیات</label>
-                                        <button class="btn btn-danger delete-btn" type="button" id="delete">حذف</button>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -82,6 +72,7 @@
     <script>
         var caturl = '{{ route('cat_json') }}';
         var changecat = '{{ route('change.parent') }}';
-        var csrf_token = '{{ csrf_token() }}'
+        var csrf_token = '{{ csrf_token() }}';
+        var editurl = '{{ route('edit.category') }}';
     </script>
 @endsection
