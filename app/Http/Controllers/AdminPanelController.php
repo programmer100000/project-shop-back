@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use App\brand;
 use App\category;
+use App\product;
 
 class AdminPanelController extends Controller
 {
@@ -309,7 +310,53 @@ class AdminPanelController extends Controller
                 return view('addproduct');
                 break;
             case 'POST':
-                # code...
+                $title = $request->input('title');
+                $desc = $request->input('description');
+                $balance = $request->input('balance');
+                $review = $request->input('editor1');
+                $offer_type = $request->input('offer_type');
+                $offer = $request->input('offer-price');
+                $special = $request->input('special-value');
+                $specialfromdate = $request->input('start-date');
+                $specialtodate = $request->input('finish-date');
+                $image = $request->input('main-image');
+                $price = $request->input('price');
+                dd($request);
+                request()->validate([
+                    'title' => 'required',
+                    'description' => 'required',
+                    'balance' => 'required',
+                    'price' => 'required',
+                    'editor1' => 'required',
+                    'offer_type' => 'required',
+                    'offer-price' => 'required',
+                    'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048000',
+                ]);
+                if(validator()){
+                    $imageName = time() . '.' . request()->file('image')->getClientOriginalExtension();
+                    $image->move(public_path('images'), $imageName);
+                    $product = new product();
+                    $product->title = $title;
+                    $product->description = $desc;
+                    $product->balance = $balance;
+                    $product->offer_type_id = $offer_type;
+                    if($offer != null){
+                        $product->offer = $offer;
+                    }
+                    $product->Review = $review;
+                    $product->special = $special;
+                    if($specialtodate != null && $specialfromdate != null){
+                        $product->special_from = $specialfromdate;
+                        $product->special_to = $specialtodate;
+                    }
+                    $product->main_image = 'images/'.$imageName;
+                    if($product->save()){
+                        return true;
+                    }else{
+                        return false;
+                    }
+
+                }
                 break;
             
             default:

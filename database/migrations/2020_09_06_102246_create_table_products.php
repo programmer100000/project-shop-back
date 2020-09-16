@@ -26,13 +26,14 @@ class CreateTableProducts extends Migration
             $table->double('offer', 10, 0);
             
             $table->text('Review');
+            $table->double('price' , 10 , 0);
             
             $table->boolean('special' , 0);
             
-            $table->dateTime('special-from')->nullable();
-            $table->dateTime('special-to')->nullable();
+            $table->dateTime('special_from')->nullable();
+            $table->dateTime('special_to')->nullable();
             
-            $table->string('main-image', 200);
+            $table->string('main_image', 200);
             
             $table->timestamps();            
             

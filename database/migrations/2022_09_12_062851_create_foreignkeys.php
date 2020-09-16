@@ -81,6 +81,11 @@ class CreateForeignkeys extends Migration
         $table->foreign('status_id')->references('status_id')->on('status');
         $table->foreign('role_id')->references('role_id')->on('roles');
     });
+    Schema::table('products', function (Blueprint $table) {
+        $table->unsignedBigInteger('offer_type_id');
+
+        $table->foreign('offer_type_id')->references('offer_type_id')->on('offer_types');
+    });
     }
 
     /**

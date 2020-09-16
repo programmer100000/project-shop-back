@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -41,5 +42,11 @@ class DatabaseSeeder extends Seeder
           
         ];
         DB::table('users')->insert($user);
+        $offer_types =[
+          ['offer_title' => 'off'],
+          ['offer_title' => 'درصد'],
+          ['offer_title' => 'قیمت']
+        ];
+        DB::table('offer_types')->insert($offer_types);
     }
 }
