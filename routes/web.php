@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminPanelController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 /*
@@ -58,3 +59,4 @@ Route::post('/admin/add/product' , 'AdminPanelController@addproduct')->name('add
 Route::get('/admin/edit/product' , 'AdminPanelController@editproduct')->name('edit.product');
 Route::post('/admin/edit/product' , 'AdminPanelController@editproduct')->name('edit.product');
 Route::post('/admin/delete/product' , 'AdminPanelController@deleteproduct')->name('delete.product');
+Route::post('/ckeditor' , 'AdminPanelController@ckeditoruploader')->name('ckeditor.upload');

@@ -1,7 +1,7 @@
 $(document).ready(function(){
     $('#offer-type').change(function(){
         let that = $(this).children("option:selected").val()
-        if(that == 0){
+        if(that == 1){
             $('#offer-price').addClass('d-none');
         }else{
             $('#offer-price').removeClass('d-none');

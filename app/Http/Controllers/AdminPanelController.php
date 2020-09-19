@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use App\brand;
 use App\category;
+use App\Helper\Helper;
 use App\product;
 
 class AdminPanelController extends Controller
@@ -16,7 +17,7 @@ class AdminPanelController extends Controller
     protected $user;
     public function __construct(){
         $this->middleware('checklogin');
-        $this->user = Auth::user();
+        Helper::updateproducts();
     }
 
     //slider functions
@@ -302,7 +303,8 @@ class AdminPanelController extends Controller
     //Product functions 
 
     public function product(Request $request){
-
+        $products = product::all();
+        return view('product' , compact('products'));
     }
     public function addproduct(Request $request){
         switch ($request->method()) {
@@ -314,22 +316,15 @@ class AdminPanelController extends Controller
                 $desc = $request->input('description');
                 $balance = $request->input('balance');
                 $review = $request->input('editor1');
-                $offer_type = $request->input('offer_type');
+                $offer_type = $request->input('offer-type');
                 $offer = $request->input('offer-price');
                 $special = $request->input('special-value');
                 $specialfromdate = $request->input('start-date');
                 $specialtodate = $request->input('finish-date');
-                $image = $request->input('main-image');
+                $image = $request->file('image');
                 $price = $request->input('price');
-                dd($request);
+
                 request()->validate([
-                    'title' => 'required',
-                    'description' => 'required',
-                    'balance' => 'required',
-                    'price' => 'required',
-                    'editor1' => 'required',
-                    'offer_type' => 'required',
-                    'offer-price' => 'required',
                     'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048000',
                 ]);
                 if(validator()){
@@ -338,6 +333,7 @@ class AdminPanelController extends Controller
                     $product = new product();
                     $product->title = $title;
                     $product->description = $desc;
+                    $product->price = floatval($price);
                     $product->balance = $balance;
                     $product->offer_type_id = $offer_type;
                     if($offer != null){
@@ -355,7 +351,8 @@ class AdminPanelController extends Controller
                     }else{
                         return false;
                     }
-
+                }else{
+                    return false;
                 }
                 break;
             
@@ -364,4 +361,23 @@ class AdminPanelController extends Controller
                 break;
         }
     }
+    public function ckeditoruploader(Request $request){
+        if($request->hasFile('upload')) {
+            $originName = $request->file('upload')->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $request->file('upload')->getClientOriginalExtension();
+            $fileName = $fileName.'_'.time().'.'.$extension;
+        
+            $request->file('upload')->move(public_path('images'), $fileName);
+   
+            $CKEditorFuncNum = $request->input('CKEditorFuncNum');
+            $url = asset('images/'.$fileName); 
+            $msg = 'Image uploaded successfully'; 
+            $response = "<script>window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, '$url', '$msg')</script>";
+               
+            @header('Content-type: text/html; charset=utf-8'); 
+            echo $response;
+        }
+    }
+
 }

@@ -18,7 +18,7 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form role="form" method="POST" action="{{ route('add.product') }}" enctype="multipart/form-data">
+                    <form  method="POST" action="{{ route('add.product') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
                             <div class="form-group">
@@ -43,7 +43,7 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <label for="balance">:قیمت</label><br>
-                                    <input class="form-control" type="text" id="price" rows="5" name="price">
+                                    <input class="form-control" type="text" id="price" name="price">
                                 </div>
                             </div>
                             <div class="from-group">
@@ -55,10 +55,10 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <label for="offer-type">نوع تخفیف:</label>
-                                    <select name="offer-type" id="offer-type">
-                                        <option value="0">ندارد</option>
-                                        <option value="1">درصدی</option>
-                                        <option value="2">قیمت</option>
+                                    <select name="offer-type" id="offer-type" >
+                                        <option value="1" selected>ندارد</option>
+                                        <option value="2">درصدی</option>
+                                        <option value="3">قیمت</option>
                                     </select>
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <label for="image">عکس اصلی</label>
-                                    <input type="file" name="main-image" name="main-image">
+                                    <input type="file" name="image">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -112,26 +112,25 @@
 @section('scripts')
 <script src="{{ asset('myplugin/persian.date.min.js') }}"></script>
 <script src="{{ asset('myplugin/persian.datepicker.min.js') }}"></script>
-<script src="{{ asset('plugins/ckeditor/ckeditor.js')}}"></script>
+<script src="{{ asset('myplugin/ckeditor/ckeditor.js')}}"></script>
 <script src="{{ asset('js/product.js') }}"></script>
 <script>
     $(function () {
+        var CKEDITOR_BASEPATH = '{{ asset('images') }}';
+
       // Replace the <textarea id="editor1"> with a CKEditor
       // instance, using default configuration.
-      ClassicEditor
-        .create(document.querySelector('#editor1'))
-        .then(function (editor) {
-          // The editor instance
-        })
-        .catch(function (error) {
-          console.error(error)
-        })
-        $('.start-date').persianDatepicker({
-            autoClose: true
+      CKEDITOR.replace( 'editor1' , {
+        filebrowserUploadUrl: "{{route('ckeditor.upload', ['_token' => csrf_token() ])}}",
+        filebrowserUploadMethod: 'form'
+      } );
+      $('.start-date').persianDatepicker({
+        autoClose: true
         });
         $('.finish-date').persianDatepicker({
             autoClose: true
         });
+
     })
   </script>
 @endsection

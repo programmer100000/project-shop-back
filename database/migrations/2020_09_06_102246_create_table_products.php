@@ -23,17 +23,18 @@ class CreateTableProducts extends Migration
             
             $table->integer('balance')->unsigned();
             
-            $table->double('offer', 10, 0);
+            $table->double('offer', 10, 0)->nullable();
             
             $table->text('Review');
             $table->double('price' , 10 , 0);
             
             $table->boolean('special' , 0);
             
-            $table->dateTime('special_from')->nullable();
-            $table->dateTime('special_to')->nullable();
+            $table->string('special_from' , 45)->nullable();
+            $table->string('special_to' , 45)->nullable();
             
             $table->string('main_image', 200);
+            $table->boolean('status')->default(false);
             
             $table->timestamps();            
             

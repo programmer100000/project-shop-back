@@ -209,7 +209,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('brand') }}" class="nav-link active">
+                <a href="{{ route('product') }}" class="nav-link active">
                   <i class="fa fa-circle-o nav-icon"></i>
                   <p>لیست</p>
                 </a>
