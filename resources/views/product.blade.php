@@ -3,6 +3,7 @@
 محصولات
 @endsection
 @section('header')
+<link rel="stylesheet" href="{{ asset('myplugin/persian.datepicker.min.css') }}">
 <script src="{{ asset('plugins/datatables/jquery.dataTables.js')}}" defer></script>
 <link rel="stylesheet" href="{{ asset('plugins/datatables/dataTables.bootstrap4.css')}}">
 @endsection
@@ -41,9 +42,9 @@
                                 </td>
                                 <td>{{ $item->title }}</td>
                                 <td>
-                                    <a class="btn btn-primary" data-toggle="modal" data-target="#editproduct">ویرایش</a>
-                                    <button class="btn btn-danger delete-brand" data-id={{ $item->product_id }}
-                                        data-toggle="modal" data-target='#deletemodal'>حذف</button>
+                                    <a class="btn btn-primary edit-product" data-toggle="modal" data-target="#editproduct" data-id="{{ $item->product_id }}" data-url={{ route('edit.product') }}>ویرایش</a>
+                                    <button class="btn btn-danger disable-product" data-id={{ $item->product_id }}
+                                        data-toggle="modal" data-target='#deletemodal'> غیر فعال/فعال</button>
                                 </td>
                             </tr>
                             @endforeach
@@ -70,12 +71,12 @@
                 </button>
             </div>
             <div class="modal-body">
-                برای حذف این مورد مطمئن هستید ؟؟؟
+                برای غیر فعال/ فعال این مورد مطمئن هستید ؟؟؟
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">خیر</button>
-                <button type="button" class="btn btn-primary" id="delete-brand" data-id=""
-                    data-csrf="{{ csrf_token() }}" data-url="{{ route('delete.brand') }}">بله</button>
+                <button type="button" class="btn btn-primary" id="disable-product" data-id=""
+                    data-csrf="{{ csrf_token() }}" data-url="{{ route('disable.product') }}">بله</button>
             </div>
         </div>
     </div>
@@ -91,19 +92,23 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('edit.product')}}" method="POST">
+                <form id="edit-form-modal" action="{{ route('edit.info.product')}}" method="POST">
+                    @csrf
+                    <input type="hidden" name="id" value="" id="id">
                     <div class="form-group">
                         <label for="title">عنوان</label>
-                        <input class="form-control" name="title">
+                        <input class="form-control" name="title" id="title">
                     </div>
                     <div class="form-group">
                         <label for="picture">عکس</label>
+                        <img src="" id="image" alt="" width="300" height="300">
                         <input type="file" class="form-control" name="image">
                     </div>
                     <div class="form-group">
                         <label for="">توضیحات</label>
-                        <input type="text" name="description" class="form-control">
+                        <input type="text" name="description" class="form-control" id="desc">
                     </div>
+                    <input type="hidden" name="special-value" id="special-value" value="0">
                     <div class="form-group">
                         <label for="balance">موجودی</label>
                         <input type="number" name="balance" id="balance">
@@ -131,13 +136,31 @@
                                 style="width: 100%">لطفا متن مورد نظر خودتان را وارد کنید</textarea>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <label for="image">فروش ویژه</label>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" onchange="changeradiono()" id="noradio" checked>
+                                <label class="form-check-label"  for="exampleCheck1">خیر</label>
+                              </div>
+                              <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="yesradio" onchange="changeradioyes()">
+                                <label class="form-check-label" for="exampleCheck1">بله</label>
+                              </div>                         
+                        </div>
+                    </div>
+                    <div class="form-group d-none" id="special">
+                        <div class="input-group">
+                            <label for="start-date">تاریخ شروع </label>
+                            <input class="start-date " id="stime" name="start-date">
+                        </div>
+                        <div class="input-group">
+                            <label for="finish-date">تاریخ پایان </label>
+                            <input class="finish-date" id="ftime" name="finish-date">
+                        </div>
+                    </div>
                     <button class="btn btn-primary" type="submit">ویرایش</button>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">خیر</button>
-                <button type="button" class="btn btn-primary" id="delete-brand" data-id=""
-                    data-csrf="{{ csrf_token() }}" data-url="{{ route('delete.brand') }}">بله</button>
             </div>
         </div>
     </div>
@@ -148,11 +171,13 @@
 <script src="{{ asset('myplugin/persian.date.min.js') }}"></script>
 <script src="{{ asset('myplugin/persian.datepicker.min.js') }}"></script>
 <script src="{{ asset('myplugin/ckeditor/ckeditor.js')}}"></script>
+<script>
+    let csrf_token = '{{ csrf_token() }}';
+</script>
 <script src="{{ asset('js/product.js') }}"></script>
 <script>
     $(function () {
-        var CKEDITOR_BASEPATH = '{{ asset('
-        images ') }}';
+        var CKEDITOR_BASEPATH = '{{ asset('images') }}';
 
         // Replace the <textarea id="editor1"> with a CKEditor
         // instance, using default configuration.

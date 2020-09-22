@@ -11,6 +11,8 @@ use App\brand;
 use App\category;
 use App\Helper\Helper;
 use App\product;
+use App\Product as AppProduct;
+use Illuminate\Support\Facades\Storage;
 
 class AdminPanelController extends Controller
 {
@@ -379,5 +381,70 @@ class AdminPanelController extends Controller
             echo $response;
         }
     }
+    public function editproduct(Request $request){
+        $id = $request->input('id');
+        $product = product::where('product_id' , $id)->first();
+        $product->main_image = url($product->main_image);
+        return json_encode($product);
+    }
+    public function disableproduct(Request $request){
+        $id = $request->input('id');
+        $product = product::where('product_id' , $id)->first();
+        if($product->status == 1){
+            $product->status = 0;
+            if($product->save()){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            $product->status = 1;
+            if($product->save()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+    public function editinfoproduct(Request $request){
+        $id = $request->input('id');
+        $title = $request->input('title');
+        $desc = $request->input('description');
+        $balance = $request->input('balance');
+        $review = $request->input('editor1');
+        $offer_type = $request->input('offer-type');
+        $offer = $request->input('offer-price');
+        $special = $request->input('special-value');
+        $specialfromdate = $request->input('start-date');
+        $specialtodate = $request->input('finish-date');
+        $image = $request->file('image');
+        $price = $request->input('price');
+        $product = product::where('product_id' , $id)->first();
+        $product->title = $title;
+        $product->description = $desc;
+        $product->balance = $balance;
+        $product->Review = $review;
+        $product->offer_type_id = $offer_type;
+        if($offer != null){
+            $product->offer = $offer;
+        }
+        $product->special = $special;
+        if($specialtodate != null && $specialfromdate != null){
+            $product->special_from = $specialfromdate;
+            $product->special_to = $specialtodate;
+        }
 
+        if($request->hasFile('image')){
+            $imageName = time() . '.' . request()->file('image')->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+            $product->main_image = 'images/'.$imageName;
+        }
+        if($product->save()){
+            return true;
+        }else{
+            return false;
+        }
+
+        
+    }
 }

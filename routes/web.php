@@ -60,3 +60,6 @@ Route::get('/admin/edit/product' , 'AdminPanelController@editproduct')->name('ed
 Route::post('/admin/edit/product' , 'AdminPanelController@editproduct')->name('edit.product');
 Route::post('/admin/delete/product' , 'AdminPanelController@deleteproduct')->name('delete.product');
 Route::post('/ckeditor' , 'AdminPanelController@ckeditoruploader')->name('ckeditor.upload');
+Route::post('/admin/edit/product' , 'AdminPanelController@editproduct')->name('edit.product');
+Route::post('/admin/disable/product' , 'AdminPanelController@disableproduct')->name('disable.product');
+Route::post('/admin/edit/info/product' , 'AdminPanelController@editinfoproduct')->name('edit.info.product');
