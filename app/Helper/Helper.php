@@ -8,10 +8,7 @@ class Helper
     public static function updateproducts(){
         $products = product::all();
         foreach ($products as $p) {
-            if($p->balance > 0){
-                $p->status = true;
-                $p->save();
-            }else{
+            if($p->balance < 0){
                 $p->status = false;
                 $p->save();
             }

@@ -3,6 +3,8 @@
 use App\Http\Controllers\AdminPanelController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,8 +15,10 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
+Route::get('/' , function(){
+    return Redirect::to('http://localhost:3000');
+});
+Route::get('/admin', function () {
     return view('index');
 })->middleware('checklogin')->name('home');
 Route::get('/admin/login' , function(){
@@ -63,3 +67,5 @@ Route::post('/ckeditor' , 'AdminPanelController@ckeditoruploader')->name('ckedit
 Route::post('/admin/edit/product' , 'AdminPanelController@editproduct')->name('edit.product');
 Route::post('/admin/disable/product' , 'AdminPanelController@disableproduct')->name('disable.product');
 Route::post('/admin/edit/info/product' , 'AdminPanelController@editinfoproduct')->name('edit.info.product');
+
+

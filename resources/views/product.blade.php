@@ -25,6 +25,7 @@
                                 <th>عکس</th>
                                 <th>عنوان</th>
                                 <th>عملیات</th>
+                                <th>وضعیت</th>
                             </tr>
                         </thead>
                         @php
@@ -45,6 +46,14 @@
                                     <a class="btn btn-primary edit-product" data-toggle="modal" data-target="#editproduct" data-id="{{ $item->product_id }}" data-url={{ route('edit.product') }}>ویرایش</a>
                                     <button class="btn btn-danger disable-product" data-id={{ $item->product_id }}
                                         data-toggle="modal" data-target='#deletemodal'> غیر فعال/فعال</button>
+                                </td>
+                                <td>
+                                    @if ($item->status ==1 )
+                                        فعال
+                                        @else
+                                        غیرفعال
+
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
